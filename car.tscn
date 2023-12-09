@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://cdhc27kwynww"]
+
+[ext_resource type="Script" path="res://car.gd" id="1_n34nx"]
+[ext_resource type="Script" path="res://wheel.gd" id="1_wfgu8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lcypu"]
+size = Vector3(1.60522, 0.445313, 3.08887)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7gpj8"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bm74q"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qmxci"]
+albedo_color = Color(0, 0, 1, 1)
+
+[node name="Car" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.94801, 0)
+script = ExtResource("1_n34nx")
+suspension_rest_dist = 0.6
+spring_strength = 200.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_lcypu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 0.4, 0, 0, 0, 3, 0, 0, 0)
+mesh = SubResource("BoxMesh_7gpj8")
+
+[node name="Wheels" type="Node3D" parent="."]
+
+[node name="FL_Wheel" type="RayCast3D" parent="Wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57, 0, -1.2)
+script = ExtResource("1_wfgu8")
+is_front_wheel = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wheels/FL_Wheel"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.499049, 0)
+mesh = SubResource("CylinderMesh_bm74q")
+surface_material_override/0 = SubResource("StandardMaterial3D_qmxci")
+
+[node name="FR_Wheel" type="RayCast3D" parent="Wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.57, 0, -1.2)
+script = ExtResource("1_wfgu8")
+is_front_wheel = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wheels/FR_Wheel"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.499049, 0)
+mesh = SubResource("CylinderMesh_bm74q")
+surface_material_override/0 = SubResource("StandardMaterial3D_qmxci")
+
+[node name="RL_Wheel" type="RayCast3D" parent="Wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57, 0, 1.2)
+script = ExtResource("1_wfgu8")
+
+[node name="RR_Wheel" type="RayCast3D" parent="Wheels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.57, 0, 1.2)
+script = ExtResource("1_wfgu8")
